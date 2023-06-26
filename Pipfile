@@ -7,6 +7,9 @@ name = "pypi"
 fastapi = "*"
 python-jose = {extras = ["cryptography"], version = "*"}
 passlib = {extras = ["bcrypt"], version = "*"}
+uvicorn = "*"
+pydantic = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 
