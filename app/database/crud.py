@@ -33,5 +33,12 @@ class CRUD:
     
 
 class CRUDUser(CRUD):
+    
     async def get_by_email(self, email: str):
         return self.db.query(self.model).filter(self.model.email.__eq__(email)).first()
+
+
+class CRUDInvalidToken(CRUD):
+
+    async def get_by_token(self, token: str):
+        return self.db.query(self.model).filter(self.model.token.__eq__(token)).first()

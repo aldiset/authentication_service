@@ -67,3 +67,11 @@ class RolePermission(Base):
 
     role = relationship('Role', backref='role_permissions')
     permission = relationship('Permission', backref='role_permissions')
+
+
+class InvalidToken(Base):
+    __tablename__ = "invalid_token"
+
+    id = Column(Integer, primary_key=True)
+    token = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)

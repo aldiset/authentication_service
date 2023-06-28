@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 
 from app.schema.user import Register
+from app.database.object import ObjectUser
 from app.security.authentication import TokenManager
 from app.database.object import Authentication
 
@@ -21,4 +22,4 @@ async def logout(credentials: str = Depends(TokenManager.verify_token)):
 
 @router.post("/register")
 async def register(data: Register):
-    pass
+    return await ObjectUser.create_user(data=data)
