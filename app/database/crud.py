@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 
+
 class CRUD:
     def __init__(self, db: Session, model):
         self.db = db
@@ -29,6 +30,7 @@ class CRUD:
         self.db.delete(obj)
         self.db.commit()
         return obj
+    
 
 class CRUDUser(CRUD):
     async def get_by_email(self, email: str):
