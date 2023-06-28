@@ -16,7 +16,7 @@ async def login(email: str, password: str):
 
 
 @router.post("/logout")
-async def logout(credentials: str = Depends(TokenManager.verify_token)):
+async def logout(credentials: str = Depends(TokenManager.logout)):
     # Implementation for logout route
     return JSONResponse(content={"message":"success"}, status_code=status.HTTP_200_OK)
 

@@ -16,9 +16,10 @@ class TokenManager:
     NOW = datetime.utcnow()
 
     @classmethod
-    async def create_token(cls, user_id: int):
+    async def create_token(cls, user_id: int, permissions: list = []):
         payload = {
             "user_id": user_id,
+            "permissions": permissions,
             "iat": cls.NOW,
             "exp": cls.NOW + cls.EXPIRATION_TIME
         }
@@ -33,3 +34,7 @@ class TokenManager:
             return jwt.decode(token.credentials, cls.SECRET_KEY, algorithms=[cls.ALGORITHM])
         except:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    
+    async def logout(cls, token: HTTPAuthorizationCredentials = Depends(security)):
+        await cls.verify_token(token=token)
+        return await ObjectInvalidToken.blacklist_token(token=token.credentials)

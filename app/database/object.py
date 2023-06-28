@@ -1,8 +1,8 @@
 from fastapi import HTTPException, status
+from fastapi.encoders import jsonable_encoder
 
 from app.schema.user import Register
 from app.database.connect import session
-from app.schema.invalid_token import BlacklistToken
 from app.database.crud import CRUD, CRUDUser, CRUDInvalidToken
 from app.database.models import User, Role, Permission, InvalidToken
 from app.security.password_hasher import PasswordHasher
@@ -23,7 +23,7 @@ class ObjectUser:
 
     @classmethod
     async def create_user(cls, data: Register):
-        return await cls.crud.create(data)
+        return await cls.crud.create(jsonable_encoder(data))
     
 
 class ObjectInvalidToken:
@@ -34,5 +34,5 @@ class ObjectInvalidToken:
         return await cls.crud.get_by_token(token=token)
     
     @classmethod
-    async def blacklist_token(cls, data: BlacklistToken):
-        return await cls.crud.create(data)
+    async def blacklist_token(cls, token: str):
+        return await cls.crud.create({"token":token})
