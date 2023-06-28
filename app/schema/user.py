@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
+
+from app.utils.email_validation import EmailValidator
 
 
 class UserSchema(BaseModel):
@@ -7,8 +9,9 @@ class UserSchema(BaseModel):
 
 class Register(BaseModel):
     name: str
-    email: str
+    email: EmailStr
     password: str
+
 
 class Login(BaseModel):
     email: str
