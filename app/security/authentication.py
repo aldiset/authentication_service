@@ -27,5 +27,5 @@ class TokenManager:
         try:
             return jwt.decode(token.credentials, cls.SECRET_KEY, algorithms=[cls.ALGORITHM])
         except:
-            return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
 

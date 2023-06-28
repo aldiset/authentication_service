@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from app.routes.auth import router as auth
 from fastapi.responses import HTMLResponse
 
-app = FastAPI()
+app = FastAPI(title="Authentication Service")
 app.include_router(router=auth, prefix="/auth", tags=["Authentication"])
 
 

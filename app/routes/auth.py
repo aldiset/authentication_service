@@ -17,7 +17,7 @@ async def login(email: str, password: str):
 @router.post("/logout")
 async def logout(credentials: str = Depends(TokenManager.verify_token)):
     # Implementation for logout route
-    return credentials
+    return JSONResponse(content={"message":"success"}, status_code=status.HTTP_200_OK)
 
 @router.post("/register")
 async def register(data: Register):
