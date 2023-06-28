@@ -6,13 +6,6 @@ from datetime import datetime
 
 Base = declarative_base()
 
-role_permission_association = Table(
-    'role_permissions',
-    Base.metadata,
-    Column('role_id', Integer, ForeignKey('roles.id')),
-    Column('permission_id', Integer, ForeignKey('permissions.id'))
-)
-
 
 class User(Base):
     __tablename__ = 'users'
@@ -35,8 +28,6 @@ class Role(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, onupdate=datetime.utcnow)
     deleted_at = Column(DateTime)
-
-    permissions = relationship('Permission', secondary=role_permission_association, backref='roles')
 
 
 class Permission(Base):

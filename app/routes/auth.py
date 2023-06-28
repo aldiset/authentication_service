@@ -1,19 +1,23 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
+from fastapi.responses import JSONResponse
 
-from app.schema.user import Register, Login
-from app.security.authentication import verify_token
+from app.schema.user import Register
+from app.security.authentication import TokenManager
+from app.database.object import Authentication
 
 router = APIRouter()
 
 @router.post("/login")
-async def login(data: Login):
-    # Implementation for login route
-    pass
+async def login(email: str, password: str):
+    user = await Authentication.authenticate(email=email, password=password)
+    token = await TokenManager.create_token(user_id=user.id)
+    return JSONResponse(content={"message":"success", "token":token}, status_code=status.HTTP_200_OK)
+
 
 @router.post("/logout")
-async def logout(credentials: str = Depends(verify_token)):
+async def logout(credentials: str = Depends(TokenManager.verify_token)):
     # Implementation for logout route
-    pass
+    return credentials
 
 @router.post("/register")
 async def register(data: Register):
