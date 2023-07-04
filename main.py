@@ -9,15 +9,15 @@ from app.routes.permission import router as permission
 from app.routes.role_permission import router as role_permission
 
 app = FastAPI(title="Authentication Service")
-app.include_router(router=role, prefix="/role", tags=["Role"])
 app.include_router(router=auth, prefix="/auth", tags=["Authentication"])
+app.include_router(router=role, prefix="/role", tags=["Role"])
 app.include_router(router=user_role, prefix="/user-role", tags=["User Role"])
 app.include_router(router=permission, prefix="/permission", tags=["Permission"])
 app.include_router(router=role_permission, prefix="/role-permission", tags=["Role Permission"])
 
 
-@app.get("/")
-async def read_items():
+@app.get("/", tags=["Index"])
+async def index():
     return HTMLResponse(content='<a href="/docs"> clickMe! </a>')
 
 

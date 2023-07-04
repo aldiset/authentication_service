@@ -12,6 +12,7 @@ sqlalchemy = "*"
 psycopg2 = "*"
 alembic = "*"
 pydantic = {extras = ["email"], version = "*"}
+psycopg2-binary = "*"
 
 [dev-packages]
 
