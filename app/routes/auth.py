@@ -14,6 +14,9 @@ async def login(email: str, password: str):
     token = await TokenManager.create_token(user_id=user.id)
     return JSONResponse(content={"message":"success", "token":token}, status_code=status.HTTP_200_OK)
 
+@router.post("/secret")
+async def secret(credential: str = Depends(TokenManager.verify_token)):
+    return JSONResponse(content={"message":"success"})
 
 @router.post("/logout")
 async def logout(credentials: str = Depends(TokenManager.logout)):

@@ -9,18 +9,18 @@ from app.database.models import User, Role, Permission, InvalidToken
 from app.security.password_hasher import PasswordHasher
 
 class Authentication:
-    crud = CRUDUser(db=session, model=User)
+    crud = CRUDUser(db=session(), model=User)
     
     @classmethod
     async def authenticate(cls, email: str, password: str):
-        user = cls.crud.get_by_email(email=email)
+        user = await cls.crud.get_by_email(email=email)
         if not user or not PasswordHasher.validate_password(password=password, hashed_password=user.password):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="invalid email or password")
         return user
 
 
 class ObjectUser:
-    crud = CRUDUser(db=session, model=User)
+    crud = CRUDUser(db=session(), model=User)
 
     @classmethod
     async def create_user(cls, data: Register):
@@ -28,7 +28,7 @@ class ObjectUser:
     
 
 class ObjectInvalidToken:
-    crud = CRUDInvalidToken(db=session, model=InvalidToken)
+    crud = CRUDInvalidToken(db=session(), model=InvalidToken)
 
     @classmethod
     async def is_invalid(cls, token: str):

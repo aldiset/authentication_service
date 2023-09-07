@@ -1,6 +1,7 @@
 import uuid
+import enum
 from datetime import datetime 
-from sqlalchemy import Column, String, Integer, ForeignKey, Table, DateTime
+from sqlalchemy import Column, String, Integer, ForeignKey, Date, DateTime, Enum
 from sqlalchemy.orm import relationship
 
 from app.database.connect import Base
@@ -12,7 +13,10 @@ class User(Base):
     id = Column(String, primary_key=True, default=str(uuid.uuid4()))
     name = Column(String, nullable=False)
     email = Column(String, nullable=False, unique=True)
+    gender = Column(String, nullable=True)
     password = Column(String, nullable=False)
+    birth_of_day = Column(Date)
+
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, onupdate=datetime.utcnow)
     deleted_at = Column(DateTime)

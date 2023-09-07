@@ -10,7 +10,7 @@ security = HTTPBearer()
 
 
 class TokenManager:
-    SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf73b88e8d3e6"  # Just Example
+    SECRET_KEY = "e6fa79b6b8d2e1a87177d0e5bf9e7c83ea6106748b1b9d7253ac743c4bbc4e5c"  # Just Example
     ALGORITHM = "HS256"
     EXPIRATION_TIME = timedelta(minutes=30)
     NOW = datetime.utcnow()
@@ -29,12 +29,13 @@ class TokenManager:
     @classmethod
     async def verify_token(cls, token: HTTPAuthorizationCredentials = Depends(security)):
         try:
-            if ObjectInvalidToken.is_invalid(token=token.credentials):
+            if await ObjectInvalidToken.is_invalid(token=token.credentials):
                 raise
             return jwt.decode(token.credentials, cls.SECRET_KEY, algorithms=[cls.ALGORITHM])
         except:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     
+    @classmethod
     async def logout(cls, token: HTTPAuthorizationCredentials = Depends(security)):
         await cls.verify_token(token=token)
         return await ObjectInvalidToken.blacklist_token(token=token.credentials)
