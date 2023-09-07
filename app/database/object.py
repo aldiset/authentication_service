@@ -25,6 +25,13 @@ class ObjectUser:
     @classmethod
     async def create_user(cls, data: Register):
         return await cls.crud.create(jsonable_encoder(data))
+
+    @classmethod
+    async def get_user_by_id(cls, id: str):
+        user = await cls.crud.get(id=id)
+        user = jsonable_encoder(user)
+        del user["password"]
+        return user
     
 
 class ObjectInvalidToken:

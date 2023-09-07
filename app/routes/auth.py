@@ -8,6 +8,11 @@ from app.database.object import Authentication
 
 router = APIRouter()
 
+@router.post("/me")
+async def me(credential: str = Depends(TokenManager.verify_token)):
+    user = await ObjectUser.get_user_by_id(id=credential.get("user_id"))
+    return JSONResponse(content={"message":"success", "data":user}, status_code=status.HTTP_200_OK)
+
 @router.post("/login")
 async def login(email: str, password: str):
     user = await Authentication.authenticate(email=email, password=password)
